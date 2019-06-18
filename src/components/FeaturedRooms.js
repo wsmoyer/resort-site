@@ -1,14 +1,23 @@
-import React, { Component } from 'react'
-import {useStoreState} from 'easy-peasy'
+import React, { Component } from "react";
+import Title from "./Title";
+import { RoomContext } from "../context";
+import Room from "./Room";
 export default class FeaturedRooms extends Component {
+  static contextType = RoomContext;
 
-render() {
-const todos = useStoreState(state => state.rooms.items);
+  render() {
+    let { loading, featuredRooms: rooms } = this.context;
 
-        return (
-            <div>
-                
-            </div>
-        )
-    }
+    rooms = rooms.map(room => {
+      return <Room key={room.id} room={room} />;
+    });
+    return (
+      <section className="featured-rooms">
+        <Title title="featured rooms" />
+        <div className="featured-rooms-center">
+          {loading ? 'loading': rooms}
+        </div>
+      </section>
+    );
+  }
 }
